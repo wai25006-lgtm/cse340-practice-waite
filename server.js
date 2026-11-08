@@ -4,6 +4,8 @@ import { fileURLToPath } from 'url';
 
 import path from 'path';
 
+import { facultyListPage, facultyDetailPage } from './src/controllers/faculty/faculty.js';
+
 const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
@@ -31,7 +33,29 @@ app.get('/products', (req, res) => {
     res.render('products', { title });
 });
 
+app.get('/faculty', facultyListPage);
+
+app.get('/faculty/:facultyId', facultyDetailPage);
+
 const NODE_ENV = process.env.NODE_ENV || 'production';
+
+// Handle requests for pages that do not exist
+
+app.use((req, res, next) => {
+    res.status(404).render('404', {
+        title: '404 - Page Not Found'
+    });
+});
+
+// Handle server errors
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+
+    res.status(500).render('500', {
+        title: '500 - Server Error',
+        error: NODE_ENV === 'development' ? err : null
+    });
+});
 
 const PORT = process.env.PORT || 3000;
 

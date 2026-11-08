@@ -1,0 +1,16 @@
+<%- include('./partials/header', { title }) %>
+
+<main>
+    <h1>500 - Server Error</h1>
+
+    <p>Sorry, something went wrong on our server.</p>
+
+    <% if (error) { %>
+        <h2>Error Details (Development Only)</h2>
+        <pre><%= error.stack %></pre>
+    <% } %>
+
+    <a href="/">Return Home</a>
+</main>
+
+<%- include('./partials/footer') %>
